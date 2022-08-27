@@ -1,0 +1,5 @@
+Comandos:
+- pip install tensorflow: Para instalar tensorflow
+- python capsulenet.py: Para entrenar el modelo
+- python capsulenet.py --test: Para testear el modelo con los datos de test
+- python capsulenet.py --weight ./result/trained_model.h5 --test : Para ejecutar el modelo almacenado en './result/trained_model.h5' y ejecutar las pruebas 
