@@ -1,12 +1,11 @@
 import numpy as np
 from matplotlib import pyplot as plt
-import csv
 import math
-import pandas
+import pandas as pd
 
 def plot_log(filename, show=True):
 
-    data = pandas.read_csv(filename)
+    data = pd.read_csv(filename)
 
     fig = plt.figure(figsize=(4,6))
     fig.subplots_adjust(top=0.95, bottom=0.05, right=0.95)
@@ -24,7 +23,6 @@ def plot_log(filename, show=True):
     plt.legend()
     plt.title('Training and validation accuracy')
 
-    # fig.savefig('result/log.png')
     if show:
         plt.show()
 
@@ -39,7 +37,7 @@ def combine_images(generated_images, height=None, width=None):
     elif height is not None and width is None:  # width not given
         width = int(math.ceil(float(num)/height))
 
-    shape = generated_images.shape[1:3]
+    shape = generated_images.shape[1:3] 
     image = np.zeros((height*shape[0], width*shape[1]),
                      dtype=generated_images.dtype)
     for index, img in enumerate(generated_images):
@@ -50,7 +48,4 @@ def combine_images(generated_images, height=None, width=None):
     return image
 
 if __name__=="__main__":
-    plot_log('result/log.csv')
-
-
-
+    plot_log('result/log.csv') #Result of training datasets
