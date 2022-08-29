@@ -9,20 +9,16 @@ from sklearn.preprocessing import LabelEncoder
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras import models
 from tensorflow.keras import layers
-from keras.preprocessing.image import ImageDataGenerator
 from keras.applications.vgg16 import VGG16
 
 
 # Getting .csv file
-df = pd.read_csv("C:/Users/jackc/Documents/Machine Learning/Kaggle competitions/02 Car driven/driver_imgs_list.csv")
-#df.head()
+df = pd.read_csv(".csv route") #Route of .csv filename
 
 features = df["img"]
 labels = df["classname"]
-#df["classname"].value_counts()
-#df["classname"].value_counts().plot(kind='bar')
 
-path="C:/Users/jackc/Documents/Machine Learning/Kaggle competitions/02 Car driven/imgs/train"
+path="dataset train folder" #Path of train dataset
 folder_names=os.listdir(path)
 folder_names
 
@@ -30,7 +26,7 @@ for i,folder in enumerate( folder_names):
     print(folder,"contains",len(os.listdir(path+"/"+folder)))
 
 def read_gray():
-    base="../input/state-farm-distracted-driver-detection/imgs/train"
+    base="../input/state-farm-distracted-driver-detection/imgs/train" #Path of the image dataset
     image_data=[]
     label_data=[]
     for i in range(len (features)):
@@ -41,7 +37,7 @@ def read_gray():
 
 
 def read_color():    
-    path="../input/state-farm-distracted-driver-detection/imgs/train"
+    path="../input/state-farm-distracted-driver-detection/imgs/train"#Path of the image dataset
     image_data=[]
     label_data=[]
     for i in range(len (features)):
@@ -51,7 +47,7 @@ def read_color():
         label_data.append(labels[i])
     return image_data,label_data
 
-
+#To move the images to the training, validation and testing
 def split(image_data,label_data):
     train_images, images_validation_test, train_labels, labels_validation_test = train_test_split(
         image_data, label_data, test_size=0.2, random_state=42, stratify=labels)
@@ -66,7 +62,7 @@ def split(image_data,label_data):
     test_labels=np.asarray(test_labels)
     return train_images,train_labels,validation_images,validation_labels,test_images,test_labels
 
-
+#Images purposes
 def feature_preprocessing(train_images,validation_images,test_images):
     train_images = train_images.reshape((train_images.shape[0], -1))
     train_images = train_images.astype('float32') / 255
@@ -78,7 +74,7 @@ def feature_preprocessing(train_images,validation_images,test_images):
     test_images = test_images.astype('float32') / 255
     return train_images,validation_images,test_images
 
-
+#Label purposes
 def label_preprocessing(train_labels,validation_labels,test_labels):   
     label_encoder = LabelEncoder()
     vec = label_encoder.fit_transform(train_labels)
@@ -102,7 +98,7 @@ class_dict = {
     8 : "hair and makeup",
     9 : "talking to passenger"
 }
-
+#Values for testing and training purposes
 image_data, label_data=read_gray()
 train_images,train_labels,validation_images,validation_labels,test_images,test_labels=split(image_data,label_data)
 train_images,validation_images,test_images=feature_preprocessing(train_images,validation_images,test_images)
