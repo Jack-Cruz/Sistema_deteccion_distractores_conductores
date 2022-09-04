@@ -26,6 +26,7 @@ class Mask(layers.Layer):
             # compute lengths of capsules
             x = tf.sqrt(tf.reduce_sum(tf.square(inputs), -1))
             # generate the mask which is a one-hot code.
+            print('index out of range:', x.shape)
             mask = tf.one_hot(indices=tf.argmax(x, 1), depth=x.shape[1])
 
         masked = K.batch_flatten(inputs * tf.expand_dims(mask, -1))
