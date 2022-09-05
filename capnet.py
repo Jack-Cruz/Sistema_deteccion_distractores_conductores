@@ -167,7 +167,7 @@ def load_dataset():
 
 def single_predict(model, args):
     import  random
-    path = "C:/Users/Elizabeth/Desktop/Sistema_deteccion_distractores_conductores/test"
+    path = "C:/Users/Elizabeth/Desktop/Sistema_deteccion_distractores_conductores/test" #Can changes
     file_names= os.listdir(path)
 
     file = random.choice(file_names)
