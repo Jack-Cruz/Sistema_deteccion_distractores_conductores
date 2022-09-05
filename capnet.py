@@ -176,11 +176,29 @@ def load_dataset():
     return (train_images, train_labels), (validation_images, validation_labels), (test_images, test_labels)
 
 def single_predict(model, args):
-    path = "C:/Users/jackc/Documents/Machine Learning/Kaggle competitions/02 Car driven/imgs/test"
-    file = args.singlepredict
-
     # Preprocess
     from pre_process import read_single_gray, get_name
+    import random
+
+    path = "C:/Users/jackc/Documents/Machine Learning/Kaggle competitions/02 Car driven/imgs/test"
+    file_names= os.listdir(path)
+    file = random.choice(file_names)
+    
+    
+    
+    # randon_imgName = random.choice([
+    #     x for x in os.listdir(path)
+    #     if os.path.isfile(os.path.join(path,x))
+    # ])
+
+    # file = args.singlepredict
+
+    # # Preprocess
+    # from pre_process import read_single_gray, get_name
+    # img, img_proc = read_single_gray(path+"/"+str(randon_imgName)+file, args)
+    
+
+
     img, img_proc = read_single_gray(path+"/"+file, args)
 
     y_pred, x_recon = model.predict(img_proc, batch_size=args.batch_size)
@@ -192,7 +210,10 @@ def single_predict(model, args):
     print("Resulted predict:", np.argmax(y_pred[0]))
     print("Resulted predict:", get_name(np.argmax(y_pred[0])))
 
-    img = combine_images(np.stack([img, img_proc[0], x_recon[0]])) # Getting the first image
+    plt.imshow(img)
+    plt.show()
+    
+    img = combine_images(np.stack([img_proc[0], x_recon[0]])) # Getting the first image
     image = img * 255
     Image.fromarray(image.astype(np.uint8)).save(args.save_dir + "/single_predict.png")
 
@@ -208,8 +229,8 @@ if __name__ == "__main__":
 
     # setting the hyper parameters
     parser = argparse.ArgumentParser(description="Capsule Network on MNIST.")
-    parser.add_argument('--epochs', default=10, type=int)
-    parser.add_argument('--batch_size', default=50, type=int)
+    parser.add_argument('--epochs', default=1, type=int)
+    parser.add_argument('--batch_size', default=100, type=int)
     parser.add_argument('--lr', default=0.001, type=float,
                         help="Initial learning rate")
     parser.add_argument('--lr_decay', default=0.9, type=float,
@@ -229,8 +250,8 @@ if __name__ == "__main__":
                         help="Digit to manipulate")
     parser.add_argument('-w', '--weights', default=None,
                         help="The path of the saved weights. Should be specified when testing")
-    parser.add_argument('-sp', '--singlepredict', default=None, type=str, 
-                        help="choose an image to predict")
+    parser.add_argument('-sp', '--singlepredict', action='store_true', default=None,
+                        help="choose a random image to predict")
     args = parser.parse_args()
     print(args)
 

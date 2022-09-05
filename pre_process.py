@@ -18,7 +18,7 @@ df = pd.read_csv("C:/Users/jackc/Documents/Machine Learning/Kaggle competitions/
 
 features = df["img"]
 labels = df["classname"]
-DIM = 42
+DIM = 28
 
 # path="C:/Users/Elizabeth/Desktop/TDP/train" #Path of train dataset
 path="C:/Users/jackc/Documents/Machine Learning/Kaggle competitions/02 Car driven/imgs/train" #Path of train dataset
@@ -27,8 +27,8 @@ img_train = len(features)
 # img_train = 200
 img_shape = (DIM, DIM)
 
-# for i,folder in enumerate( folder_names):
-#     print(folder,"contains",len(os.listdir(path+"/"+folder)))
+for i,folder in enumerate( folder_names):
+    print(folder,"contains",len(os.listdir(path+"/"+folder)))
 
 def read_gray():
     # base="../input/state-farm-distracted-driver-detection/imgs/train" #Path of the image dataset
@@ -37,30 +37,28 @@ def read_gray():
     label_data=[]
     cnt_imgs = {"c0": 0, "c1": 0, "c2": 0, "c3": 0, "c4": 0, "c5": 0, "c6": 0, "c7": 0, "c8": 0, "c9": 0}
     for i in range(img_train):
-        if cnt_imgs[labels[i]] < 1000:
+        if cnt_imgs[labels[i]] < 500:
             cnt_imgs[labels[i]] += 1
             img = cv2.resize(cv2.imread(base+"/"+labels[i]+"/"+ features[i], cv2.IMREAD_GRAYSCALE), img_shape)
             image_data.append(img)
             label_data.append(labels[i])
 
     for i in range(img_train):
-        if cnt_imgs[labels[i]] < 1000:
+        if cnt_imgs[labels[i]] < 500:
             cnt_imgs[labels[i]] += 1
             img = cv2.resize(cv2.imread(base+"/"+labels[i]+"/"+ features[i], cv2.IMREAD_GRAYSCALE), img_shape)
             image_data.append(img)
             label_data.append(labels[i])
-            print('Reading', i, 'images of category', labels[i])
 
     for cat, val in cnt_imgs.items():
-        print(cat, val)
+        print('Category:', cat, 'images of category:', val)
     
     return image_data, label_data
 
 def read_single_gray(path, args):
-    img = cv2.resize(cv2.imread(path, cv2.IMREAD_GRAYSCALE), img_shape)
-    img = img.reshape((DIM, DIM, 1))
-
-    img_proc = img.reshape((DIM, DIM, 1))
+    img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
+    img_proc = cv2.resize(img, img_shape)
+    img_proc = img_proc.reshape((DIM, DIM, 1))
     img_proc = np.full((args.batch_size, DIM, DIM, 1), img_proc)
     #batch_size
     img_proc = img_proc.astype('float32') / 255

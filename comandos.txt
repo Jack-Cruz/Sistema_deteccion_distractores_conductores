@@ -3,7 +3,7 @@ Comandos:
 - python capnet.py: Para entrenar el modelo
 - python capnet.py --test: Para testear el modelo con los datos de test
 - python capnet.py --weight ./result/trained_model.h5 --test : Para ejecutar el modelo almacenado en './result/trained_model.h5' y ejecutar las pruebas
-- python capnet.py --weight ./result/trained_model-11-19.h5 --singlepredict img_1.jpg: Para ejecutar la prueba unitaria con el modelo cargado (Driver)
-- python capnet.py --weight ./result/trained_model.h5 --singlepredict img_2.jpg: Para ejecutar la prueba unitaria con el modelo cargado (Driver)
+- python capnet.py --weight ./result/trained_model-11-19.h5 --singlepredict: Para ejecutar la prueba unitaria con el modelo cargado (Driver)
+- python capnet.py --weight ./result/trained_model.h5 --singlepredict: Para ejecutar la prueba unitaria con el modelo cargado (Driver)
 
 Hora de inicio: 4:30 am
